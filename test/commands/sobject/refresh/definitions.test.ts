@@ -15,9 +15,9 @@
  */
 import { TestContext } from '@salesforce/core/testSetup';
 import { expect } from 'chai';
-import Refresh from '../../../../src/commands/sobject/definitions/refresh.js';
+import Definitions from '../../../../src/commands/sobject/refresh/definitions.js';
 
-describe('sobject definitions refresh', () => {
+describe('sobject refresh definitions', () => {
   const $$ = new TestContext();
 
   afterEach(() => {
@@ -25,29 +25,29 @@ describe('sobject definitions refresh', () => {
   });
 
   it('should have correct flags', () => {
-    const flags = Refresh.flags;
+    const flags = Definitions.flags;
     expect(flags['sobject-category']).to.exist;
     expect(flags['sobject-category'].options).to.deep.equal(['all', 'custom', 'standard']);
     expect(flags['sobject-category'].default).to.equal('all');
   });
 
   it('should have api-version flag', () => {
-    const flags = Refresh.flags;
+    const flags = Definitions.flags;
     expect(flags['api-version']).to.exist;
   });
 
   it('should have target-org flag', () => {
-    const flags = Refresh.flags;
+    const flags = Definitions.flags;
     expect(flags['target-org']).to.exist;
   });
 
   it('should require a project', () => {
-    expect(Refresh.requiresProject).to.be.true;
+    expect(Definitions.requiresProject).to.be.true;
   });
 
   it('should have correct command metadata', () => {
-    expect(Refresh.summary).to.exist;
-    expect(Refresh.description).to.exist;
-    expect(Refresh.examples).to.exist;
+    expect(Definitions.summary).to.exist;
+    expect(Definitions.description).to.exist;
+    expect(Definitions.examples).to.exist;
   });
 });

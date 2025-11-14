@@ -19,9 +19,9 @@ import { Messages, AuthInfo, Connection } from '@salesforce/core';
 import { type SObjectCategory, generateSObjects } from '../../../sobjectGenerator.js';
 
 Messages.importMessagesDirectoryFromMetaUrl(import.meta.url);
-const messages = Messages.loadMessages('@salesforce/plugin-gen-sobj-defs', 'sobject.definitions.refresh');
+const messages = Messages.loadMessages('@salesforce/plugin-gen-sobj-defs', 'sobject.refresh.definitions');
 
-export type RefreshResult = {
+export type DefinitionsResult = {
   success: boolean;
   standardObjects: number;
   customObjects: number;
@@ -29,7 +29,7 @@ export type RefreshResult = {
   cancelled: boolean;
 };
 
-export default class Refresh extends SfCommand<RefreshResult> {
+export default class Definitions extends SfCommand<DefinitionsResult> {
   public static readonly summary = messages.getMessage('summary');
   public static readonly description = messages.getMessage('description');
   public static readonly examples = messages.getMessages('examples');
@@ -54,15 +54,15 @@ export default class Refresh extends SfCommand<RefreshResult> {
 
   private static isActive = false;
 
-  public async run(): Promise<RefreshResult> {
-    const { flags } = await this.parse(Refresh);
+  public async run(): Promise<DefinitionsResult> {
+    const { flags } = await this.parse(Definitions);
 
     // Check if a refresh is already active
-    if (Refresh.isActive) {
+    if (Definitions.isActive) {
       throw messages.createError('error.already-active');
     }
 
-    Refresh.isActive = true;
+    Definitions.isActive = true;
 
     try {
       // Convert flag to SObjectCategory type
@@ -123,7 +123,7 @@ export default class Refresh extends SfCommand<RefreshResult> {
       const errorMessage = error instanceof Error ? error.message : String(error);
       throw messages.createError('error.refresh-failed', [errorMessage]);
     } finally {
-      Refresh.isActive = false;
+      Definitions.isActive = false;
       this.spinner.stop();
     }
   }
