@@ -54,6 +54,14 @@
     "topics": {
       "hello": {
         "description": "Commands to say hello."
+      },
+      "sobject": {
+        "description": "Work with Salesforce objects (SObjects).",
+        "subtopics": {
+          "definitions": {
+            "description": "Manage SObject definitions for code completion."
+          }
+        }
       }
     },
     "flexibleTaxonomy": true
