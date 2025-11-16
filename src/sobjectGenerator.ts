@@ -156,8 +156,8 @@ export class SObjectGenerator {
     this.progress(`Found ${sobjects.length} SObjects to process`);
 
     // Create output directories
-    const standardDir = path.join(this.outputDir, 'tools', 'sobjects', 'standardObjects');
-    const customDir = path.join(this.outputDir, 'tools', 'sobjects', 'customObjects');
+    const standardDir = path.join(this.outputDir, '.sfdx', 'tools', 'sobjects', 'standardObjects');
+    const customDir = path.join(this.outputDir, '.sfdx', 'tools', 'sobjects', 'customObjects');
 
     await fs.mkdir(standardDir, { recursive: true });
     await fs.mkdir(customDir, { recursive: true });
