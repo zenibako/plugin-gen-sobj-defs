@@ -1,55 +1,17 @@
-**NOTE: This template for sf plugins is not yet official. Please consult with the Platform CLI team before using this template.**
+# plugin-gen-sobj-defs
 
-# plugin-template-sf
+[![NPM](https://img.shields.io/npm/v/@salesforce/plugin-gen-sobj-defs.svg?label=@salesforce/plugin-gen-sobj-defs)](https://www.npmjs.com/package/@salesforce/plugin-gen-sobj-defs) [![Downloads/week](https://img.shields.io/npm/dw/@salesforce/plugin-gen-sobj-defs.svg)](https://npmjs.org/package/@salesforce/plugin-gen-sobj-defs) [![License](https://img.shields.io/badge/License-Apache--2.0-blue.svg)](https://opensource.org/license/apache-2-0)
 
-[![NPM](https://img.shields.io/npm/v/@salesforce/plugin-template-sf.svg?label=@salesforce/plugin-template-sf)](https://www.npmjs.com/package/@salesforce/plugin-template-sf) [![Downloads/week](https://img.shields.io/npm/dw/@salesforce/plugin-template-sf.svg)](https://npmjs.org/package/@salesforce/plugin-template-sf) [![License](https://img.shields.io/badge/License-Apache--2.0-blue.svg)](https://opensource.org/license/apache-2-0)
+## About
 
-## Using the template
+A Salesforce CLI plugin that generates or refreshes local SObject definitions (faux Apex classes) for code completion in your IDE. These definitions provide IntelliSense and type checking when working with Salesforce objects in your code.
 
-This repository provides a template for creating a plugin for the Salesforce CLI. To convert this template to a working plugin:
-
-1. Please get in touch with the Platform CLI team. We want to help you develop your plugin.
-2. Generate your plugin:
-
-   ```
-   sf plugins install dev
-   sf dev generate plugin
-
-   git init -b main
-   git add . && git commit -m "chore: initial commit"
-   ```
-
-3. Create your plugin's repo in the salesforcecli github org
-4. When you're ready, replace the contents of this README with the information you want.
-
-## Learn about `sf` plugins
-
-Salesforce CLI plugins are based on the [oclif plugin framework](https://oclif.io/docs/introduction). Read the [plugin developer guide](https://developer.salesforce.com/docs/atlas.en-us.sfdx_cli_plugins.meta/sfdx_cli_plugins/cli_plugins_architecture_sf_cli.htm) to learn about Salesforce CLI plugin development.
-
-This repository contains a lot of additional scripts and tools to help with general Salesforce node development and enforce coding standards. You should familiarize yourself with some of the [node developer packages](#tooling) used by Salesforce. There is also a default circleci config using the [release management orb](https://github.com/forcedotcom/npm-release-management-orb) standards.
-
-Additionally, there are some additional tests that the Salesforce CLI will enforce if this plugin is ever bundled with the CLI. These test are included by default under the `posttest` script and it is required to keep these tests active in your plugin if you plan to have it bundled.
-
-### Tooling
-
-- [@salesforce/core](https://github.com/forcedotcom/sfdx-core)
-- [@salesforce/kit](https://github.com/forcedotcom/kit)
-- [@salesforce/sf-plugins-core](https://github.com/salesforcecli/sf-plugins-core)
-- [@salesforce/ts-types](https://github.com/forcedotcom/ts-types)
-- [@salesforce/ts-sinon](https://github.com/forcedotcom/ts-sinon)
-- [@salesforce/dev-config](https://github.com/forcedotcom/dev-config)
-- [@salesforce/dev-scripts](https://github.com/forcedotcom/dev-scripts)
-
-# Everything past here is only a suggestion as to what should be in your specific plugin's description
-
-This plugin is bundled with the [Salesforce CLI](https://developer.salesforce.com/tools/sfdxcli). For more information on the CLI, read the [getting started guide](https://developer.salesforce.com/docs/atlas.en-us.sfdx_setup.meta/sfdx_setup/sfdx_setup_intro.htm).
-
-We always recommend using the latest version of these commands bundled with the CLI, however, you can install a specific version or tag if needed.
+The plugin connects to your Salesforce org, fetches SObject metadata, and generates Apex class representations that include all fields with proper type mappings. The generated files are placed in `.sfdx/tools/sobjects/` directory of your Salesforce project.
 
 ## Install
 
 ```bash
-sf plugins install @salesforce/plugin-template-sf@x.y.z
+sf plugins install @salesforce/plugin-gen-sobj-defs@x.y.z
 ```
 
 ## Issues
@@ -81,7 +43,7 @@ To build the plugin locally, make sure to have yarn installed and run the follow
 
 ```bash
 # Clone the repository
-git clone git@github.com:salesforcecli/plugin-template-sf
+git clone git@github.com:zenibako/plugin-gen-sobj-defs
 
 # Install the dependencies and compile
 yarn && yarn build
@@ -91,7 +53,7 @@ To use your plugin, run using the local `./bin/dev` or `./bin/dev.cmd` file.
 
 ```bash
 # Run using local run file.
-./bin/dev hello world
+./bin/dev sobject refresh definitions
 ```
 
 There should be no differences when running via the Salesforce CLI or using the local run file. However, it can be useful to link the plugin to do some additional testing or run your commands from anywhere on your machine.
@@ -107,43 +69,50 @@ sf plugins
 
 <!-- commands -->
 
-- [`sf hello world`](#sf-hello-world)
+- [`sf sobject refresh definitions`](#sf-sobject-refresh-definitions)
 
-## `sf hello world`
+## `sf sobject refresh definitions`
 
-Say hello.
+Refresh SObject definitions for your org.
 
 ```
 USAGE
-  $ sf hello world [--json] [--flags-dir <value>] [-n <value>]
+  $ sf sobject refresh definitions -o <value> [--json] [--flags-dir <value>] [--sobject-category all|custom|standard]
+    [--api-version <value>]
 
 FLAGS
-  -n, --name=<value>  [default: World] The name of the person you'd like to say hello to.
+  -o, --target-org=<value>           (required) Username or alias of the target org
+      --api-version=<value>          Override the API version used for the connection
+      --sobject-category=<option>    [default: all] The category of SObjects to refresh
+                                     <options: all|custom|standard>
 
 GLOBAL FLAGS
   --flags-dir=<value>  Import flag values from a directory.
   --json               Format output as json.
 
 DESCRIPTION
-  Say hello.
+  Refresh SObject definitions for your org
 
-  Say hello either to the world or someone you know.
+  Generates or refreshes local SObject definitions (faux classes) for code completion in your IDE. These definitions
+  help with IntelliSense and type checking when working with Salesforce objects in your code.
+
+  You can choose to refresh all SObjects, only custom objects, or only standard objects. The command connects to your
+  default org and fetches the latest SObject metadata.
 
 EXAMPLES
-  Say hello to the world:
+  Refresh all SObject definitions:
 
-    $ sf hello world
+    $ sf sobject refresh definitions
 
-  Say hello to someone you know:
+  Refresh only custom SObject definitions:
 
-    $ sf hello world --name Astro
+    $ sf sobject refresh definitions --sobject-category custom
 
-FLAG DESCRIPTIONS
-  -n, --name=<value>  The name of the person you'd like to say hello to.
+  Refresh only standard SObject definitions:
 
-    This person can be anyone in the world!
+    $ sf sobject refresh definitions --sobject-category standard
 ```
 
-_See code: [src/commands/hello/world.ts](https://github.com/salesforcecli/plugin-template-sf/blob/1.1.73/src/commands/hello/world.ts)_
+_See code: [src/commands/sobject/refresh/definitions.ts](https://github.com/zenibako/plugin-gen-sobj-defs/blob/1.1.73/src/commands/sobject/refresh/definitions.ts)_
 
 <!-- commandsstop -->
