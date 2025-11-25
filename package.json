@@ -1,9 +1,9 @@
 {
-  "name": "@zenibako/plugin-gen-sobj-defs",
+  "name": "sf-plugin-gen-sobj-defs",
   "description": "A Salesforce CLI plugin that generates SObject definitions for code completion in IDEs",
-  "version": "1.1.73",
+  "version": "0.0.1",
   "author": "Zenibako",
-  "bugs": "https://github.com/zenibako/plugin-gen-sobj-defs/issues",
+  "bugs": "https://github.com/zenibako/sf-plugin-gen-sobj-defs/issues",
   "dependencies": {
     "@oclif/core": "^4",
     "@salesforce/core": "^8.23.4",
@@ -32,7 +32,7 @@
     "/oclif.manifest.json",
     "/schemas"
   ],
-  "homepage": "https://github.com/zenibako/plugin-gen-sobj-defs",
+  "homepage": "https://github.com/zenibako/sf-plugin-gen-sobj-defs",
   "keywords": [
     "force",
     "salesforce",
@@ -64,7 +64,7 @@
     },
     "flexibleTaxonomy": true
   },
-  "repository": "zenibako/plugin-gen-sobj-defs",
+  "repository": "zenibako/sf-plugin-gen-sobj-defs",
   "scripts": {
     "build": "wireit",
     "clean": "sf-clean",
@@ -82,9 +82,6 @@
     "test:nuts": "nyc mocha \"**/*.nut.ts\" --slow 4500 --timeout 600000 --parallel",
     "test:only": "wireit",
     "version": "oclif readme"
-  },
-  "publishConfig": {
-    "access": "public"
   },
   "resolutions": {
     "buffer-equal-constant-time": "npm:buffer-equal@1.0.1"
